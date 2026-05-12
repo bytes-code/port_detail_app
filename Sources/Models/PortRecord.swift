@@ -7,4 +7,6 @@ struct PortRecord: Identifiable, Hashable {
     let user: String
     let protocolType: String
     let port: String
+    let fullCommand: String
+    let startTime: String
 }

@@ -14,7 +14,7 @@ struct ContentView: View {
             Divider()
             bottomBar
         }
-        .frame(minWidth: 700, minHeight: 500)
+        .frame(minWidth: 950, minHeight: 500)
         .alert("确认终止进程", isPresented: $showKillConfirm) {
             Button("取消", role: .cancel) {}
             Button("强制终止", role: .destructive) {
@@ -115,29 +115,43 @@ struct ContentView: View {
                 Text(record.pid)
                     .monospacedDigit()
             }
-            .width(70)
+            .width(min: 50, ideal: 60)
 
             TableColumn("进程名") { record in
                 Text(record.processName)
                     .fontWeight(.medium)
             }
-            .width(150)
+            .width(min: 60, ideal: 100)
+
+            TableColumn("命令行") { record in
+                Text(record.fullCommand)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+                    .help(record.fullCommand)
+            }
+            .width(min: 100, ideal: 300)
 
             TableColumn("用户") { record in
                 Text(record.user)
             }
-            .width(100)
+            .width(min: 50, ideal: 80)
+
+            TableColumn("启动时间") { record in
+                Text(record.startTime)
+                    .font(.caption.monospacedDigit())
+            }
+            .width(min: 100, ideal: 170)
 
             TableColumn("协议") { record in
                 Text(record.protocolType)
             }
-            .width(60)
+            .width(min: 40, ideal: 50)
 
             TableColumn("端口") { record in
                 Text(record.port)
                     .monospacedDigit()
             }
-            .width(60)
+            .width(min: 40, ideal: 50)
 
             TableColumn("操作") { record in
                 Button("Kill") {
@@ -146,7 +160,7 @@ struct ContentView: View {
                 .buttonStyle(.borderless)
                 .foregroundColor(.red)
             }
-            .width(60)
+            .width(min: 40, ideal: 50)
         }
         .contextMenu(forSelectionType: UUID.self) { selectedIDs in
             if !selectedIDs.isEmpty {
